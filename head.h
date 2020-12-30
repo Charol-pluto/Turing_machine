@@ -14,55 +14,57 @@
 #define OP_L -1
 #define OP_S 0
 #define MAXNUM 100
-using namespace std;
 
-typedef struct R_node{//规则存储结构
-    int pre_i_condition;//标记状态值，0，1，2，。。。
-    char pre_c_condition[5];
-    char pre_c;//当前指向字符
-    int cur_i_condition;//标记状态值，0，1，2，。。。
-    char cur_c_condition[5];
-    char cur_c;//操作后字符
-    int op;//操作符，R，L，S；
-    struct R_node * next;
-}R_node,*R_list;
+//定义文件替换
+#define _0n1n "UTM_0n1n"
+
+using namespace std;
 
 int i_char2int(string c);//字符转数字
 string c_int2char(int a);//数字转字符
 int operator_RLS(string c);//操作字符转操作数字
 
 
-//字符转数字
-int i_char2int(string c){
-    int a;
-    stringstream ss;
-    ss << c;
-    ss >> a;
-    ss.clear();
-    return a;
-}
+typedef struct R_node{//规则存储结构
+    int pre_i_condition;//标记状态值，0，1，2，。。。
+    string pre_c_condition;
+    string pre_c;//当前指向字符
+    int cur_i_condition;//标记状态值，0，1，2，。。。
+    string cur_c_condition;
+    string cur_c;//操作后字符
+    int op;//操作符，R，L，S；
+    struct R_node * next;
+}R_node,*R_list;
 
-//数字转字符
-string c_int2char(int a){
-    stringstream ss;
-    ss << a;
-    string s = ss.str();
-    ss.clear();
-    return s;
-}
+typedef struct OP{//操作结构体
+    string str;//输入的字符串
+    string state;//当前状态
+    int ptr;//当前读头位置
+}OP,*OP_list;
 
-//操作字符转操作数字
-int operator_RLS(string c){
-    string _R ="R";
-    string _L = "L";
-    string _S = "S";
-    if(c == _R){
-        return OP_R;
-    }else if( c == _L){
-        return OP_L;
-    }else if( c == _S){
-        return OP_S;
-    }
 
-}
+typedef struct print_start{//开始接受结构体
+    string State_set;//状态集
+    string Char_set;//字符集
+    string Start_state;//开始状态
+    string Final_state;//终止状态
+    string Blank_sign;//空白符
+} print_start;
+
+class TuringMachine{
+public:
+
+public:
+};
+
+
+
+
+
+
+//typedef struct print_node{//全局传输出结构
+//    string str_print;//输出字符串
+//    string state_print;//输出状态
+//    int ptr_print;//当前读头位置
+//} print_node,*print_list;
 #endif //TURING_MACHINE_HEAD_H
