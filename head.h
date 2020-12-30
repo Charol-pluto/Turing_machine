@@ -9,13 +9,14 @@
 #include <string.h>
 #include <math.h>
 #include <sstream>
-#define R +1
-#define L -1
-#define S 0
+#include <fstream>
+#define OP_R +1
+#define OP_L -1
+#define OP_S 0
 #define MAXNUM 100
-
 using namespace std;
-typedef struct R_node{
+
+typedef struct R_node{//规则存储结构
     int pre_i_condition;//标记状态值，0，1，2，。。。
     char pre_c_condition[5];
     char pre_c;//当前指向字符
@@ -28,6 +29,7 @@ typedef struct R_node{
 
 int i_char2int(string c);//字符转数字
 string c_int2char(int a);//数字转字符
+int operator_RLS(string c);//操作字符转操作数字
 
 
 //字符转数字
@@ -47,5 +49,20 @@ string c_int2char(int a){
     string s = ss.str();
     ss.clear();
     return s;
+}
+
+//操作字符转操作数字
+int operator_RLS(string c){
+    string _R ="R";
+    string _L = "L";
+    string _S = "S";
+    if(c == _R){
+        return OP_R;
+    }else if( c == _L){
+        return OP_L;
+    }else if( c == _S){
+        return OP_S;
+    }
+
 }
 #endif //TURING_MACHINE_HEAD_H
