@@ -4,7 +4,7 @@ using namespace std;
 
 
 int main() {
-    TuringMachine turingMachine;
-
+//    TuringMachine turingMachine;
+    cout << "Hello World!" << endl;
     return 0;
 }
