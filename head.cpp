@@ -25,14 +25,14 @@ string c_int2char(int a){
 
 //操作字符转操作数字
 int operator_RLS(string c){
-    string _R ="R";
-    string _L = "L";
-    string _S = "S";
-    if(c == _R){
+    string C_R ="R";
+    string C_L = "L";
+    string C_S = "S";
+    if(c == C_R){
         return OP_R;
-    }else if( c == _L){
+    }else if( c == C_L){
         return OP_L;
-    }else if( c == _S){
+    }else if( c == C_S){
         return OP_S;
     }
 
