@@ -22,7 +22,7 @@
 #define _0n1n "UTM_0n1n.txt"
 #define _1to2 "UTM_1to2.txt"
 #define _log2n "UTM_log2n.txt"
-#define _m-n "UTM_m-n.txt"
+#define _m_n "UTM_m-n.txt"
 #define _wcw "UTM_wcw.txt"
 
 using namespace std;
@@ -86,7 +86,7 @@ public://成员函数
      string cur_char() const;//返回当前指向的字符串
      //封装函数
      int get_num_Rule() const{return num_Rule;}//获得规则的数量
-     int set_num_Rule(int num_Rule){this->num_Rule = num_Rule;}//设置规则的数量
+     void set_num_Rule(int num_Rule){this->num_Rule = num_Rule;}//设置规则的数量
      //命令行调试
      void printDATA();//输出当前存储的文件名，开始输出结构体，规则存放，所有过程状态
 

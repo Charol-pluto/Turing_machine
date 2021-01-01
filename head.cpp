@@ -35,10 +35,9 @@ int operator_RLS(string c){
     }else if( c == _S){
         return OP_S;
     }
-
+    return 0;
 }
 
-//todo:完善文件读写函数
 
 void TuringMachine::file_load(string filename) {
     this->filename = filename;
@@ -59,7 +58,6 @@ void TuringMachine::file_load(string filename) {
     push_OP();//将当前操作结构体推入ID队列
 
     while (!file.eof()){
-        //todo:标记一下这里可能会读入换行符
         file.getline(c,MAXLENTH);
         str = c;
         //投入存放字符串规则
@@ -151,15 +149,31 @@ string TuringMachine::cur_char() const {
     return str;
 }
 
+//todo:向左移动添空白符，向右移动添空白符
 bool TuringMachine::Is_Turing() {
     int i = 0;
     while (Operation.state != printStart.Final_state){
         for (i = 0; i <this->get_num_Rule() ; ++i) {
             if (this->Is_rule(Rule[i])){
                 this->Operation.state = Rule[i].cur_c_condition;
+//                if(Rule[i].op == -1  &&  )
                 string substr = Rule[i].cur_c;
-                this->Operation.str = this->Operation.str.replace(this->Operation.ptr, 1, substr, 0, 1);
-                this->Operation.ptr = this->Operation.ptr + Rule[i].op;
+                char *B;
+                B = "B";
+                if(this->Operation.str.at(this->Operation.ptr) == 'B' && Rule[i].cur_c != B && this->Operation.ptr == 0){//left
+                    this->Operation.str = this->Operation.str.replace(this->Operation.ptr, 1, substr, 0, 1);
+                    this->Operation.str = BLANK + this->Operation.str;
+                    this->Operation.ptr = this->Operation.ptr + Rule[i].op + 1;
+                }else if(this->Operation.str.at(this->Operation.ptr) == 'B' && Rule[i].cur_c != B && this->Operation.ptr == this->Operation.str.size()-1){//right
+                    this->Operation.str = this->Operation.str.replace(this->Operation.ptr, 1, substr, 0, 1);
+                    this->Operation.str = this->Operation.str + BLANK ;
+                    this->Operation.ptr = this->Operation.ptr + Rule[i].op;
+                } else{
+                    this->Operation.str = this->Operation.str.replace(this->Operation.ptr, 1, substr, 0, 1);
+                    this->Operation.ptr = this->Operation.ptr + Rule[i].op;
+                }
+
+
 
                 this->push_OP();//推入ID队列
                 break;
@@ -186,9 +200,7 @@ void TuringMachine::printDATA() {
          << "空白符： " << this->printStart.Blank_sign << endl
          << "默认数据： " << this->printStart.str << endl;
     cout << "读取到的规则：" << endl;
-//    for (int i = 0; i <get_num_Rule() ; ++i) {
-//        cout << "第" << i+1<< "个" << this->Rule_list[i] << endl;
-//    }
+
     vector<string>::iterator it;//声明一个迭代器
     int i=0;
     for(it=Rule_list.begin();it!=Rule_list.end();it++)
