@@ -83,7 +83,7 @@ void TuringMachine::file_load(string filename) {
         Rule[n].op = operator_RLS(str);
         n++;
     }
-    this->set_num_Rule(n+1);//存入规则的数量
+    this->set_num_Rule(n);//存入规则的数量
 
     file.close();
 }
@@ -136,13 +136,13 @@ void TuringMachine::push_OP() {
     this->ID.push(swap);
 }
 
-void TuringMachine::read_string(string str) {
+void TuringMachine::read_string(const string& str) {
     this->Operation.str = BLANK + str + BLANK;
 }
 
 
-bool TuringMachine::Is_rule(R_node rule) {
-    return this->Operation.state == rule.cur_c_condition && cur_char() == rule.cur_c;
+bool TuringMachine::Is_rule(const R_node& rule) const {
+    return this->Operation.state == rule.pre_c_condition && cur_char() == rule.pre_c;
 }
 
 string TuringMachine::cur_char() const {
@@ -176,6 +176,33 @@ bool TuringMachine::Is_Turing() {
 }
 
 
+void TuringMachine::printDATA() {
+    cout << "文件名：" << this->filename << endl;
+    cout << "文件开头行： \n"
+         << "状态集: " << this->printStart.State_set << endl
+         << "字符集： " << this->printStart.Char_set << endl
+         << "起始状态： " << this->printStart.Start_state << endl
+         << "终止状态： " << this->printStart.Final_state << endl
+         << "空白符： " << this->printStart.Blank_sign << endl
+         << "默认数据： " << this->printStart.str << endl;
+    cout << "读取到的规则：" << endl;
+//    for (int i = 0; i <get_num_Rule() ; ++i) {
+//        cout << "第" << i+1<< "个" << this->Rule_list[i] << endl;
+//    }
+    vector<string>::iterator it;//声明一个迭代器
+    int i=0;
+    for(it=Rule_list.begin();it!=Rule_list.end();it++)
+    {
+        cout << "第" << i+1<< "个 " << *it << endl;
+        i++;
+    }
+    cout << "过程状态："<< endl;
+    while (!this->ID.empty()){
+        cout << this->ID.front().state <<"," <<this->ID.front().str << "," << this->ID.front().str.at(ID.front().ptr)<<endl;
+        this->ID.pop();
+    }
+    cout << "结束！"<< endl;
 
+}
 
 
