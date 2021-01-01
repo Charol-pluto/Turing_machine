@@ -39,12 +39,13 @@ int operator_RLS(string c){
 }
 
 //todo:完善文件读写函数
-//todo::缺少对状态队列的初始化加入
+
 void TuringMachine::file_load(string filename) {
     this->filename = filename;
     string str;
     char c[MAXLENTH];
     int n=0;
+    memset(c,'\0',MAXLENTH);//初始化临时字符数组
     const char *split = ", ( ) ";
     fstream file(filename,ios::in);
     for (int i = 0; i <6 ; ++i) {//读入开头6行数据
@@ -53,17 +54,36 @@ void TuringMachine::file_load(string filename) {
         this->init_print_start(str,i+1);
     }
 
-    init_Operation();
+    memset(c,'\0',MAXLENTH);//初始化临时字符数组
+    init_Operation();//初始化当前操作结构体
+    push_OP();//将当前操作结构体推入ID队列
 
     while (!file.eof()){
+        //todo:标记一下这里可能会读入换行符
         file.getline(c,MAXLENTH);
         str = c;
-        char *p2 = strtok(c,split);
-        p2 = strtok(NULL,split);
+        //投入存放字符串规则
+        this->Rule_list.push_back(str);
 
-
+        //读取字符串规则
+        char *p2 = strtok(c,split);//获取第一个字符串1
+        str = p2;
+        Rule[n].pre_c_condition = str;
+        p2 = strtok(NULL,split);//指针移动2
+        str = p2;
+        Rule[n].pre_c = str;
+        p2 = strtok(NULL,split);//指针移动3
+        str = p2;
+        Rule[n].cur_c_condition = str;
+        p2 = strtok(NULL,split);//指针移动4
+        str = p2;
+        Rule[n].cur_c = str;
+        p2 = strtok(NULL,split);//指针移动5
+        str = p2;
+        Rule[n].op = operator_RLS(str);
+        n++;
     }
-
+    this->set_num_Rule(n+1);//存入规则的数量
 
     file.close();
 }
@@ -98,7 +118,7 @@ void TuringMachine::init_Operation(){
     string s = BLANK + this->printStart.str + BLANK;
     this->Operation.str = s;
     this->Operation.state = this->printStart.Start_state;
-    this->Operation.ptr = 1;
+    this->Operation.ptr = 1;//读头指向第一个位置
 
 }
 //todo:标记一下，使用了std::move
@@ -108,11 +128,52 @@ void TuringMachine::in_Operation(string str,string state,int ptr){
     this->Operation.ptr = ptr;
 }
 
+void TuringMachine::push_OP() {
+    OP swap;
+    swap.str = this->Operation.str;
+    swap.ptr = this->Operation.ptr;
+    swap.state = this->Operation.state;
+    this->ID.push(swap);
+}
+
+void TuringMachine::read_string(string str) {
+    this->Operation.str = BLANK + str + BLANK;
+}
 
 
+bool TuringMachine::Is_rule(R_node rule) {
+    return this->Operation.state == rule.cur_c_condition && cur_char() == rule.cur_c;
+}
 
+string TuringMachine::cur_char() const {
+    int n = Operation.ptr;
+    string str = Operation.str.substr(n,1);
+    return str;
+}
 
+bool TuringMachine::Is_Turing() {
+    int i = 0;
+    while (Operation.state != printStart.Final_state){
+        for (i = 0; i <this->get_num_Rule() ; ++i) {
+            if (this->Is_rule(Rule[i])){
+                this->Operation.state = Rule[i].cur_c_condition;
+                string substr = Rule[i].cur_c;
+                this->Operation.str = this->Operation.str.replace(this->Operation.ptr, 1, substr, 0, 1);
+                this->Operation.ptr = this->Operation.ptr + Rule[i].op;
 
+                this->push_OP();//推入ID队列
+                break;
+            }else{
+                continue;
+            }
+        }
+        if (i == get_num_Rule()){
+            return false;
+        }
+        i=0;
+    }
+    return true;
+}
 
 
 
