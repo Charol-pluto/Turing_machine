@@ -5,7 +5,7 @@ using namespace std;
 
 int main() {
     TuringMachine turingMachine;
-    turingMachine.file_load(_wcw);
+    turingMachine.file_load(_1to2);
     if (turingMachine.Is_Turing()){
         cout << "Yes" << endl;
     }else{
