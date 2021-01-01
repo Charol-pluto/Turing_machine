@@ -75,20 +75,20 @@ public://成员变量
 
 
 public://成员函数
-     void file_load(string filename);//读取文件
-     void read_string(const string& str);//读取自定字符串
-     void init_print_start(string str,int i);//读入开始接受结构体
-     void init_Operation();//初始化操作结构体
-     void in_Operation(string str,string state,int ptr);//修改操作结构体
-     void push_OP();//进入ID对列
-     bool Is_Turing();//检查输入的字符串是否符合规则
-     bool Is_rule(const R_node& rule) const;//判断当前是否符合这条规则
-     string cur_char() const;//返回当前指向的字符串
-     //封装函数
-     int get_num_Rule() const{return num_Rule;}//获得规则的数量
-     void set_num_Rule(int num_Rule){this->num_Rule = num_Rule;}//设置规则的数量
-     //命令行调试
-     void printDATA();//输出当前存储的文件名，开始输出结构体，规则存放，所有过程状态
+    void file_load(string filename);//读取文件
+    void read_string(const string& str);//读取自定字符串
+    void init_print_start(string str,int i);//读入开始接受结构体
+    void init_Operation();//初始化操作结构体
+    void in_Operation(string str,string state,int ptr);//修改操作结构体
+    void push_OP();//进入ID对列
+    bool Is_Turing();//检查输入的字符串是否符合规则
+    bool Is_rule(const R_node& rule) const;//判断当前是否符合这条规则
+    string cur_char() const;//返回当前指向的字符串
+    //封装函数
+    int get_num_Rule() const{return num_Rule;}//获得规则的数量
+    void set_num_Rule(int num_Rule){this->num_Rule = num_Rule;}//设置规则的数量
+    //命令行调试
+    void printDATA();//输出当前存储的文件名，开始输出结构体，规则存放，所有过程状态
 
 };
 

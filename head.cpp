@@ -25,14 +25,14 @@ string c_int2char(int a){
 
 //操作字符转操作数字
 int operator_RLS(string c){
-    string C_R ="R";
-    string C_L = "L";
-    string C_S = "S";
-    if(c == C_R){
+    string P_R ="R";
+    string P_L = "L";
+    string P_S = "S";
+    if(c == P_R){
         return OP_R;
-    }else if( c == C_L){
+    }else if( c == P_L){
         return OP_L;
-    }else if( c == C_S){
+    }else if( c == P_S){
         return OP_S;
     }
     return 0;
@@ -45,11 +45,14 @@ void TuringMachine::file_load(string filename) {
     char c[MAXLENTH];
     int n=0;
     memset(c,'\0',MAXLENTH);//初始化临时字符数组
-    const char *split = ", ( ) ";
+    const char *split = ", ( ) \\r";
     fstream file(filename,ios::in);
     for (int i = 0; i <6 ; ++i) {//读入开头6行数据
         file.getline(c,MAXLENTH);
         str = c;
+
+        cout << *(str.end()-1);
+        str.replace(str.end()-1,str.end()+1,"");
         this->init_print_start(str,i+1);
     }
 
@@ -158,13 +161,13 @@ bool TuringMachine::Is_Turing() {
                 this->Operation.state = Rule[i].cur_c_condition;
 //                if(Rule[i].op == -1  &&  )
                 string substr = Rule[i].cur_c;
-                char *B;
-                B = "B";
-                if(this->Operation.str.at(this->Operation.ptr) == 'B' && Rule[i].cur_c != B && this->Operation.ptr == 0){//left
+//                char *B;
+//                B = "B";
+                if(this->Operation.str.at(this->Operation.ptr) == 'B' && Rule[i].cur_c != "B" && this->Operation.ptr == 0){//left
                     this->Operation.str = this->Operation.str.replace(this->Operation.ptr, 1, substr, 0, 1);
                     this->Operation.str = BLANK + this->Operation.str;
                     this->Operation.ptr = this->Operation.ptr + Rule[i].op + 1;
-                }else if(this->Operation.str.at(this->Operation.ptr) == 'B' && Rule[i].cur_c != B && this->Operation.ptr == this->Operation.str.size()-1){//right
+                }else if(this->Operation.str.at(this->Operation.ptr) == 'B' && Rule[i].cur_c != "B" && this->Operation.ptr == this->Operation.str.size()-1){//right
                     this->Operation.str = this->Operation.str.replace(this->Operation.ptr, 1, substr, 0, 1);
                     this->Operation.str = this->Operation.str + BLANK ;
                     this->Operation.ptr = this->Operation.ptr + Rule[i].op;
