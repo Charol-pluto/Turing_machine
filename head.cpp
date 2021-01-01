@@ -50,8 +50,7 @@ void TuringMachine::file_load(string filename) {
     for (int i = 0; i <6 ; ++i) {//读入开头6行数据
         file.getline(c,MAXLENTH);
         str = c;
-
-        cout << *(str.end()-1);
+        //todo:window使用版
         str.replace(str.end()-1,str.end()+1,"");
         this->init_print_start(str,i+1);
     }
